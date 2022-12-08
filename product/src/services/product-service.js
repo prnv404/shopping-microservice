@@ -74,6 +74,19 @@ class ProductService {
             throw new APIError('Data Not found')
         }
     }
+
+    async GetProductPayload(userId, { productId, qty }, event) {
+        
+        const proudct = await this.repository.FindById(productId)
+
+        if (product) {
+            const payload = {
+                event: event,
+                data: { userId ,product ,qty } 
+            }
+        }
+
+    }
      
 }
 
