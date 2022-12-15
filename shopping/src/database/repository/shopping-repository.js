@@ -1,6 +1,7 @@
-const { CustomerModel, ProductModel, OrderModel } = require('../models');
+const { CustomerModel, ProductModel, OrderModel, CartModel } = require('../models');
 const { v4: uuidv4 } = require('uuid');
-const { APIError, BadRequestError } = require('../../utils/app-errors')
+const { APIError, BadRequestError } = require('../../utils/app-errors');
+const cart = require('../models/cart');
 
 
 //Dealing with data base operations
@@ -11,7 +12,7 @@ class ShoppingRepository {
     async Orders(customerId) {
         
         try{
-            const orders = await OrderModel.find({ customerId }).populate('items.product'); 
+            const orders = await OrderModel.find({ customerId })
             
             return orders;
 
@@ -22,6 +23,22 @@ class ShoppingRepository {
         
     }
  
+    async Cart(customerId) {
+        
+        try {
+
+            const cartItems = await CartModel.find({
+                customerId:customerId
+            })
+
+            if (cartItems) {
+                return cartItems
+            }
+            
+        } catch (error) {
+            
+        }
+    }
  
     async CreateNewOrder(customerId, txnId){
 
